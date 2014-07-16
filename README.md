@@ -23,4 +23,5 @@ Or in UnityScript:
     var c5 : Color = CSSParse.Style.ParseCSSColor("#83F");
     var c6 : Color = CSSParse.Style.ParseCSSColor("#05BFA4");
 
+[Download here](https://github.com/greggman/cssparse.net/releases/download/v0.0.1/cssparse.net.dll) and drop into your `Plugins` folder.
 
