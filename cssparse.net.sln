@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cssparse.net", "cssparse.net.csproj", "{2DE84975-E0CE-43A7-8EA5-7496AC085AF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DE84975-E0CE-43A7-8EA5-7496AC085AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE84975-E0CE-43A7-8EA5-7496AC085AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE84975-E0CE-43A7-8EA5-7496AC085AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE84975-E0CE-43A7-8EA5-7496AC085AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = cssparse.net.csproj
+	EndGlobalSection
+EndGlobal
