@@ -38,6 +38,72 @@ using System.Text.RegularExpressions;
 namespace CSSParse {
 
 public class Style {
+    
+    public static Color HSVToRGB(float H, float S, float V)
+        {
+            if (S == 0f)
+                return new Color(V,V,V);
+            else if (V == 0f)
+                return UnityEngine.Color.black;
+            else
+            {
+                Color col = Color.black;
+                float Hval = H * 6f;
+                int sel = Mathf.FloorToInt(Hval);
+                float mod = Hval - sel;
+                float v1 = V * (1f - S);
+                float v2 = V * (1f - S * mod);
+                float v3 = V * (1f - S * (1f - mod));
+                switch (sel + 1)
+                {
+                    case 0:
+                        col.r = V;
+                        col.g = v1;
+                        col.b = v2;
+                        break;
+                    case 1:
+                        col.r = V;
+                        col.g = v3;
+                        col.b = v1;
+                        break;
+                    case 2:
+                        col.r = v2;
+                        col.g = V;
+                        col.b = v1;
+                        break;
+                    case 3:
+                        col.r = v1;
+                        col.g = V;
+                        col.b = v3;
+                        break;
+                    case 4:
+                        col.r = v1;
+                        col.g = v2;
+                        col.b = V;
+                        break;
+                    case 5:
+                        col.r = v3;
+                        col.g = v1;
+                        col.b = V;
+                        break;
+                    case 6:
+                        col.r = V;
+                        col.g = v1;
+                        col.b = v2;
+                        break;
+                    case 7:
+                        col.r = V;
+                        col.g = v3;
+                        col.b = v1;
+                        break;
+                }
+                col.r = Mathf.Clamp(col.r, 0f, 1f);
+                col.g = Mathf.Clamp(col.g, 0f, 1f);
+                col.b = Mathf.Clamp(col.b, 0f, 1f);
+                return col;
+            }
+        }
+        
     static public Color ParseCSSColor(string s) {
         // I have no idea what all the color formats are. The ones here are
         // name:         red,              green,            purple
@@ -83,6 +149,19 @@ public class Style {
             color.b = float.Parse(m.Groups[4].Value);
             return color;
         }
+        
+        m = Style.m_hslaRE.Match(s);
+        if (m.Success) {
+            var h = float.Parse(m.Groups[1].Value) / 360.0f;
+            var sat = float.Parse(m.Groups[2].Value) / 100.0f;
+            var v = float.Parse(m.Groups[3].Value) / 100.0f;
+            color.a = float.Parse(m.Groups[4].Value);
+            var rgb = HSVToRGB(h,sat,v);
+            color.r = rgb.r;
+            color.g = rgb.g;
+            color.b = rgb.b;
+            return color;
+        }
 
         m = Style.m_nameRE.Match(s);
         if (m.Success) {
@@ -103,6 +182,7 @@ public class Style {
     private static Regex m_hexrgbRE = new Regex(@"\s*#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])\s*");
     private static Regex m_rgbRE = new Regex(@"\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*");
     private static Regex m_rgbaRE = new Regex(@"\s*rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(.+)\)\s*");
+    private static Regex m_hslaRE = new Regex(@"\s*hsla\s*\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*,\s*(.+)\)\s*");
     private static Regex m_nameRE = new Regex(@"\s*(\w+)\s*");
 
     static private Dictionary<string, Color> m_colors;
