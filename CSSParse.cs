@@ -80,7 +80,7 @@ public class Style {
             color.r = float.Parse(m.Groups[1].Value) / 255.0f;
             color.g = float.Parse(m.Groups[2].Value) / 255.0f;
             color.b = float.Parse(m.Groups[3].Value) / 255.0f;
-            color.b = float.Parse(m.Groups[4].Value);
+            color.a = float.Parse(m.Groups[4].Value);
             return color;
         }
 
@@ -94,7 +94,7 @@ public class Style {
             }
             return color;
         }
-
+        
         Debug.LogError("unsupported color format: " + s);
         return color;
     }
