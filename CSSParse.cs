@@ -39,70 +39,69 @@ namespace CSSParse {
 
 public class Style {
     
-    public static Color HSVToRGB(float H, float S, float V)
-        {
-            if (S == 0f)
-                return new Color(V,V,V);
-            else if (V == 0f)
-                return UnityEngine.Color.black;
-            else
+    public static Color HSVToRGB(float hue, float saturation, float value)
+    {
+        if (saturation == 0f) {
+            return new Color(value, value, value);
+        } else if (value == 0f) {
+            return UnityEngine.Color.black;
+        } else {
+            Color col  = Color.black;
+            float Hval = hue * 6f;
+            int sel    = Mathf.FloorToInt(Hval);
+            float mod  = Hval - sel;
+            float v1   = value * (1f - saturation);
+            float v2   = value * (1f - saturation * mod);
+            float v3   = value * (1f - saturation * (1f - mod));
+            switch (sel + 1)
             {
-                Color col = Color.black;
-                float Hval = H * 6f;
-                int sel = Mathf.FloorToInt(Hval);
-                float mod = Hval - sel;
-                float v1 = V * (1f - S);
-                float v2 = V * (1f - S * mod);
-                float v3 = V * (1f - S * (1f - mod));
-                switch (sel + 1)
-                {
-                    case 0:
-                        col.r = V;
-                        col.g = v1;
-                        col.b = v2;
-                        break;
-                    case 1:
-                        col.r = V;
-                        col.g = v3;
-                        col.b = v1;
-                        break;
-                    case 2:
-                        col.r = v2;
-                        col.g = V;
-                        col.b = v1;
-                        break;
-                    case 3:
-                        col.r = v1;
-                        col.g = V;
-                        col.b = v3;
-                        break;
-                    case 4:
-                        col.r = v1;
-                        col.g = v2;
-                        col.b = V;
-                        break;
-                    case 5:
-                        col.r = v3;
-                        col.g = v1;
-                        col.b = V;
-                        break;
-                    case 6:
-                        col.r = V;
-                        col.g = v1;
-                        col.b = v2;
-                        break;
-                    case 7:
-                        col.r = V;
-                        col.g = v3;
-                        col.b = v1;
-                        break;
-                }
-                col.r = Mathf.Clamp(col.r, 0f, 1f);
-                col.g = Mathf.Clamp(col.g, 0f, 1f);
-                col.b = Mathf.Clamp(col.b, 0f, 1f);
-                return col;
+                case 0:
+                    col.r = value;
+                    col.g = v1;
+                    col.b = v2;
+                    break;
+                case 1:
+                    col.r = value;
+                    col.g = v3;
+                    col.b = v1;
+                    break;
+                case 2:
+                    col.r = v2;
+                    col.g = value;
+                    col.b = v1;
+                    break;
+                case 3:
+                    col.r = v1;
+                    col.g = value;
+                    col.b = v3;
+                    break;
+                case 4:
+                    col.r = v1;
+                    col.g = v2;
+                    col.b = value;
+                    break;
+                case 5:
+                    col.r = v3;
+                    col.g = v1;
+                    col.b = value;
+                    break;
+                case 6:
+                    col.r = value;
+                    col.g = v1;
+                    col.b = v2;
+                    break;
+                case 7:
+                    col.r = value;
+                    col.g = v3;
+                    col.b = v1;
+                    break;
             }
+            col.r = Mathf.Clamp(col.r, 0f, 1f);
+            col.g = Mathf.Clamp(col.g, 0f, 1f);
+            col.b = Mathf.Clamp(col.b, 0f, 1f);
+            return col;
         }
+    }
         
     static public Color ParseCSSColor(string s) {
         // I have no idea what all the color formats are. The ones here are
@@ -152,14 +151,16 @@ public class Style {
         
         m = Style.m_hslaRE.Match(s);
         if (m.Success) {
-            var h = float.Parse(m.Groups[1].Value) / 360.0f;
-            var sat = float.Parse(m.Groups[2].Value) / 100.0f;
-            var v = float.Parse(m.Groups[3].Value) / 100.0f;
-            color.a = float.Parse(m.Groups[4].Value);
-            var rgb = HSVToRGB(h,sat,v);
+            float hue   = float.Parse(m.Groups[1].Value) / 360.0f;
+            float sat   = float.Parse(m.Groups[2].Value) / 100.0f;
+            float value = float.Parse(m.Groups[3].Value) / 100.0f;
+
+            Color rgb = HSVToRGB(hue, sat, value);
+
             color.r = rgb.r;
             color.g = rgb.g;
             color.b = rgb.b;
+            color.a = float.Parse(m.Groups[4].Value);
             return color;
         }
 
