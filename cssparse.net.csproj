@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>cssparse.net</RootNamespace>
     <AssemblyName>cssparse.net</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
